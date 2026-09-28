@@ -7,7 +7,7 @@ export default function EmptyState() {
         <CoffeeIcon className="h-8 w-8" />
       </span>
       <p className="max-w-[22ch] text-sm text-mocha">Nothing here yet — add your first task.</p>
-      <p className="font-hand text-2xl text-latte">one small step at a time</p>
+      <p className="font-hand text-2xl text-latte">one small step at a time para hindi ka ma-stress</p>
     </div>
   )
 }
