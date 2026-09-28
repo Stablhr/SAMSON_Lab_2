@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+@theme {
+  --color-cream: #f7f1e8;
+  --color-sand: #efe4d6;
+  --color-sand-dark: #e2d2bf;
+  --color-latte: #b98a64;
+  --color-latte-dark: #9a6c47;
+  --color-espresso: #3e2c22;
+  --color-mocha: #8c7565;
+  --color-leaf: #6fae5f;
+  --color-rose: #c96b5c;
+
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-hand: "Caveat", cursive;
+
+  --radius-3xl: 1.75rem;
+
+  --shadow-card: 0 8px 24px rgb(120 85 55 / 0.1);
+  --shadow-btn: 0 2px 6px rgb(120 85 55 / 0.15);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-cream text-espresso font-sans antialiased;
+  }
+}
+
+@layer utilities {
+  /* Runs when a <li> mounts (i.e. a task is added) and not when React reorders
+     existing rows, so toggling a task does not replay the animation. */
+  @keyframes task-in {
+    from {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .animate-task-in {
+    animation: task-in 200ms ease-out;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
