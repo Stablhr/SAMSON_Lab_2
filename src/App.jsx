@@ -70,7 +70,7 @@ export default function App() {
   return (
     <div className="min-h-dvh bg-cream">
       <div className="mx-auto flex min-h-dvh w-full max-w-xl flex-col sm:my-6 sm:h-[calc(100dvh-3rem)] sm:min-h-0 sm:rounded-3xl sm:border sm:border-sand-dark/50 sm:shadow-card">
-        <main className="flex-1 overflow-y-auto px-5 pt-6 pb-40 sm:min-h-0 sm:pb-6">
+        <main className="scroll-area flex-1 overflow-y-auto px-5 pt-6 pb-40 sm:min-h-0 sm:pb-6">
           {view === 'tasks' ? (
             <>
               <Header title="Today" date={dateLabel} />
