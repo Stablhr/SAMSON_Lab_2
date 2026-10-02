@@ -26,7 +26,10 @@ export default function UserGuide() {
         </li>
       ))}
       <li className="px-1 pt-2 text-center font-hand text-2xl text-latte">
-        Simple. Beautiful. Effective.
+        Samson, Aries B.
+      </li>
+       <li className="px-1 pt-2 text-center font-hand text-2xl text-latte">
+        BSIT 3-3
       </li>
     </ol>
   )
