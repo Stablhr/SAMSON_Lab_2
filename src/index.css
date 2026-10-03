@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+/* Landscape phones and short windows: the vertical budget is ~360px, so the
+   header, gaps and paddings all have to give some back. */
+@custom-variant short-screen (@media (max-height: 500px) and (orientation: landscape));
+
 @theme {
   --color-cream: #f7f1e8;
   --color-sand: #efe4d6;
@@ -23,10 +27,32 @@
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
+    min-height: 100vh;
   }
 
   body {
     @apply bg-cream text-espresso font-sans antialiased;
+    /* Stops the rubber-band overscroll on iOS from dragging the cream page
+       against the white area behind the browser chrome. */
+    overscroll-behavior-y: none;
+  }
+
+  /* Safari zooms the page when a focused field measures under 16px, which then
+     leaves the layout scrolled sideways. `:where()` keeps this at zero
+     specificity, so an explicit text-* utility on the field still wins. */
+  :where(input, select, textarea) {
+    font-size: 1rem;
+  }
+
+  /* Kills the 300ms tap delay and the grey flash iOS puts on every tappable
+     element; focus-visible rings still show for keyboard users. */
+  button,
+  a,
+  [role='button'],
+  summary,
+  label {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
   }
 
   /* Themed scrollbars. Firefox reads scrollbar-*, Chromium and WebKit read the
@@ -61,6 +87,23 @@
   ::-webkit-scrollbar-thumb:hover {
     background-color: var(--color-latte);
   }
+}
+
+/* Safe-area padding. Deliberately unlayered: in the cascade, unlayered rules
+   beat everything Tailwind emits into @layer utilities, so these win over the
+   `px-*` / `pt-*` / `pb-*` classes they are combined with. */
+.app-pt {
+  padding-top: max(1.5rem, calc(env(safe-area-inset-top) + 0.75rem));
+}
+
+.safe-x {
+  padding-inline-start: max(1.25rem, env(safe-area-inset-left));
+  padding-inline-end: max(1.25rem, env(safe-area-inset-right));
+}
+
+.safe-pb {
+  /* Clear of the home indicator / gesture bar on phones. */
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
 }
 
 @layer utilities {

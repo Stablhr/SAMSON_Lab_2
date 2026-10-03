@@ -5,8 +5,10 @@ const CIRCUMFERENCE = 2 * Math.PI * RADIUS
 
 function Chip({ label, value, accent }) {
   return (
-    <div className="rounded-2xl bg-cream px-3.5 py-2 text-center">
-      <div className="text-[11px] tracking-wide text-mocha uppercase">{label}</div>
+    <div className="min-w-0 rounded-2xl bg-cream px-2 py-2 text-center sm:px-3.5">
+      <div className="text-[10px] tracking-wide break-words text-mocha uppercase sm:text-[11px]">
+        {label}
+      </div>
       <div className={`text-lg font-semibold ${accent ? 'text-leaf' : 'text-espresso'}`}>{value}</div>
     </div>
   )
@@ -14,7 +16,7 @@ function Chip({ label, value, accent }) {
 
 function Donut({ percent }) {
   return (
-    <div className="relative grid h-[68px] w-[68px] shrink-0 place-items-center">
+    <div className="relative mx-auto grid h-[68px] w-[68px] shrink-0 place-items-center sm:mx-0">
       <svg viewBox="0 0 64 64" className="h-full w-full -rotate-90" aria-hidden="true">
         <circle cx="32" cy="32" r={RADIUS} fill="none" strokeWidth="7" className="stroke-sand-dark" />
         <circle
@@ -53,8 +55,10 @@ export default function Stats({
   const percent = total === 0 ? 0 : Math.round((done / total) * 100)
 
   return (
-    <section className="mt-5 rounded-3xl bg-sand/60 p-5">
-      <div className="flex items-center gap-4">
+    <section className="mt-5 rounded-3xl bg-sand/60 p-4 sm:p-5">
+      {/* Stacks until there is room beside the ring: at 320px the three chips
+          and the donut cannot share a row without the labels clipping. */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
         <Donut percent={percent} />
         <div className="grid flex-1 grid-cols-3 gap-2">
           <Chip label="Total" value={total} />
@@ -74,7 +78,7 @@ export default function Stats({
         </button>
 
         {confirmingClear ? (
-          <span className="flex flex-wrap items-center justify-end gap-x-3 text-sm">
+          <span className="flex w-full flex-wrap items-center justify-start gap-x-3 text-sm sm:w-auto sm:justify-end">
             <span className="text-mocha">Clear everything?</span>
             <button
               type="button"

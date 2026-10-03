@@ -15,9 +15,9 @@ const STEPS = [
 
 export default function UserGuide() {
   return (
-    <ol className="mt-5 flex flex-col gap-3">
+    <ol className="mt-5 flex flex-col gap-3 short-screen:mt-3">
       {STEPS.map((step, index) => (
-        <li key={step.title} className="flex gap-4 rounded-3xl bg-sand/60 p-5">
+        <li key={step.title} className="flex gap-3 rounded-3xl bg-sand/60 p-4 sm:gap-4 sm:p-5">
           <span className="font-hand text-4xl leading-none text-latte">{index + 1}</span>
           <div className="min-w-0">
             <h2 className="text-lg font-semibold text-espresso">{step.title}</h2>
@@ -25,10 +25,9 @@ export default function UserGuide() {
           </div>
         </li>
       ))}
-      <li className="px-1 pt-2 text-center font-hand text-2xl text-latte">
+      <li className="px-1 pt-2 text-center font-hand text-2xl leading-tight text-latte">
         Samson, Aries B.
-      </li>
-       <li className="px-1 pt-2 text-center font-hand text-2xl text-latte">
+        <br />
         BSIT 3-3
       </li>
     </ol>

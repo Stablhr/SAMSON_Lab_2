@@ -125,6 +125,28 @@ Colors are sampled by eye from the reference and should be tuned once in the bro
 | --- | --- |
 | Mobile (< 640px) | Full-width content, tab bar fixed at bottom, comfortable tap targets (min 44px) |
 | Tablet / Desktop (≥ 640px) | Centered card with `max-w-xl`, shadow and rounded corners, tab bar inside the card, list scrolls within the card |
+| Landscape phone (height ≤ 500px) | The `short-screen` variant tightens vertical rhythm (smaller header, reduced gaps and padding) so the page still fits |
+
+### 9.1 Mobile and device specifics
+
+- **Viewport:** `width=device-width, initial-scale=1.0, viewport-fit=cover`, so `env(safe-area-inset-*)`
+  resolves on notched devices.
+- **Safe areas:** the unlayered helpers `app-pt` (top notch), `safe-x` (landscape left/right) and
+  `safe-pb` (home indicator) pad the scroll pane and the floating tab bar. Unlayered on purpose — in the
+  cascade they outrank the `px-*` / `pt-*` / `pb-*` utilities they sit next to.
+- **On-screen keyboard:** the keyboard shrinks the visual viewport but not the layout viewport, which would
+  leave the fixed tab bar stranded under the keys. While the task field has focus on a phone-width screen,
+  the bar is translated out of view and made click-through; from 640px up it stays put, since there is no
+  keyboard to cover it. It is parked rather than unmounted so the field keeps focus when the list re-renders.
+- **iOS zoom on focus:** fields fall under 16px and Safari zooms, leaving the page scrolled sideways. A
+  zero-specificity `:where(input, select, textarea) { font-size: 1rem }` floor prevents it while still letting
+  an explicit `text-*` utility win.
+- **Tap feel:** `touch-action: manipulation` and a transparent `-webkit-tap-highlight-color` on buttons and
+  links remove the 300ms tap delay and the grey flash. `overscroll-behavior-y: none` on `body` and
+  `overscroll-contain` on the scroll pane stop rubber-band overscroll from dragging the cream page against
+  the white area behind the browser chrome.
+- **Narrow widths (320px):** the stats donut and the three chips stack instead of sharing a row, chip labels
+  wrap, and task text uses `break-words` so long words cannot force horizontal scroll.
 
 ## 10. Accessibility
 

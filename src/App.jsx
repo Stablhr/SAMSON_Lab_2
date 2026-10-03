@@ -23,6 +23,9 @@ export default function App() {
   const [input, setInput] = useState('')
   const [view, setView] = useState('tasks')
   const [confirmingClear, setConfirmingClear] = useState(false)
+  // On a phone the on-screen keyboard shrinks the visible area but not the layout
+  // viewport, so the fixed tab bar would end up stranded under the keys.
+  const [composing, setComposing] = useState(false)
 
   useEffect(() => {
     saveTasks(tasks)
@@ -70,12 +73,18 @@ export default function App() {
   return (
     <div className="min-h-dvh bg-cream">
       <div className="mx-auto flex min-h-dvh w-full max-w-xl flex-col sm:my-6 sm:h-[calc(100dvh-3rem)] sm:min-h-0 sm:rounded-3xl sm:border sm:border-sand-dark/50 sm:shadow-card">
-        <main className="scroll-area flex-1 overflow-y-auto px-5 pt-6 pb-40 sm:min-h-0 sm:pb-6">
+        <main className="scroll-area safe-x app-pt flex-1 overflow-y-auto overscroll-contain pb-32 short-screen:pb-6 sm:min-h-0 sm:pb-6">
           {view === 'tasks' ? (
             <>
               <Header title="Today" date={dateLabel} />
               <ProgressStrip total={total} done={done} />
-              <TaskInput value={input} onChange={setInput} onAdd={handleAdd} />
+              <TaskInput
+                value={input}
+                onChange={setInput}
+                onAdd={handleAdd}
+                onFocus={() => setComposing(true)}
+                onBlur={() => setComposing(false)}
+              />
               <TaskList tasks={orderedTasks} onToggle={handleToggle} onDelete={handleDelete} />
               <Stats
                 total={total}
@@ -96,7 +105,16 @@ export default function App() {
           )}
         </main>
 
-        <div className="fixed inset-x-0 bottom-0 z-10 bg-gradient-to-t from-cream to-transparent px-4 pt-8 pb-4 sm:static sm:shrink-0 sm:bg-none sm:p-5">
+        <div
+          className={`safe-x safe-pb fixed inset-x-0 bottom-0 z-10 bg-gradient-to-t from-cream to-transparent pt-8 transition-[opacity,transform] duration-200 ease-out sm:static sm:shrink-0 sm:bg-none sm:p-5 ${
+            // Parked (not display:none) so the state survives a remount of the
+            // list while the field keeps focus; the sm: overrides un-hide it on
+            // wider screens, where no keyboard can cover it.
+            composing
+              ? 'pointer-events-none translate-y-full opacity-0 sm:pointer-events-auto sm:translate-y-0 sm:opacity-100'
+              : ''
+          }`}
+        >
           <TabBar view={view} onChange={handleViewChange} />
         </div>
       </div>

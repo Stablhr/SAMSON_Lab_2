@@ -4,7 +4,7 @@ export default function TaskItem({ task, onToggle, onDelete }) {
   const { id, text, done } = task
 
   return (
-    <li className="animate-task-in flex items-center gap-2 py-2.5 sm:gap-3">
+    <li className="animate-task-in flex items-center gap-1.5 py-2.5 short-screen:py-1.5 sm:gap-3">
       <button
         type="button"
         onClick={() => onToggle(id)}
@@ -22,7 +22,7 @@ export default function TaskItem({ task, onToggle, onDelete }) {
       </button>
 
       <span
-        className={`min-w-0 flex-1 text-base transition-colors duration-150 ${
+        className={`min-w-0 flex-1 break-words text-base transition-colors duration-150 ${
           done ? 'text-mocha line-through' : 'text-espresso'
         }`}
       >
@@ -33,7 +33,7 @@ export default function TaskItem({ task, onToggle, onDelete }) {
         type="button"
         onClick={() => onToggle(id)}
         aria-label={done ? `Status: done. Change "${text}" to not done` : `Status: not done. Change "${text}" to done`}
-        className={`min-h-11 shrink-0 rounded-full px-3 py-1.5 text-xs font-medium transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-latte/60 focus-visible:outline-none sm:min-h-0 ${
+        className={`min-h-11 shrink-0 rounded-full px-2.5 py-1.5 text-[11px] font-medium whitespace-nowrap transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-latte/60 focus-visible:outline-none sm:min-h-0 sm:px-3 sm:text-xs ${
           done ? 'bg-leaf/15 text-leaf' : 'bg-sand text-mocha'
         }`}
       >
